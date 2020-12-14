@@ -6,7 +6,7 @@ import 'package:flutter_shoppinglist/validators/common.validator.dart';
 class ItemCreate extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _quantityController = TextEditingController();
+  final _quantityController = TextEditingController(text: '1');
 
   final _nameNode = FocusNode();
   final _quantityNode = FocusNode();
