@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_shoppinglist/validators/common.validator.dart';
+import 'package:flutter_shoppinglist/logic/validators/common.validator.dart';
 
 class ItemCreate extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

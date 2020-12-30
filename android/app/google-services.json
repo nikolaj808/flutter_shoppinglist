@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "850342780670-ff9gt53mq59avca1bm3it6c60vrs7sd2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nikolaj808.personal_shopper",
+            "certificate_hash": "94cfe829d6d86dbf9ecdc2b4d0cbc0b2630031eb"
+          }
+        },
+        {
           "client_id": "850342780670-pbl5drdhrs577me9imu7hk98mce1q6ha.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
