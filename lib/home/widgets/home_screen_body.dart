@@ -6,7 +6,6 @@ import 'package:flutter_shoppinglist/home/widgets/items_loading_widget.dart';
 import 'package:flutter_shoppinglist/home/widgets/shopping_list_item.dart';
 import 'package:flutter_shoppinglist/item_details/item_details_screen.dart';
 import 'package:flutter_shoppinglist/providers/blocs/items/items_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class HomeScreenBody extends StatelessWidget {
@@ -58,18 +57,15 @@ class HomeScreenBody extends StatelessWidget {
                   final items = state.items;
 
                   return Flexible(
-                    child: AnimationLimiter(
-                      child: ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (_, index) => OpenContainer(
-                          openBuilder: (_, __) =>
-                              ItemDetailsScreen(item: items[index]),
-                          closedElevation: 0,
-                          closedColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          closedBuilder: (_, __) =>
-                              ShoppingListItem(item: items[index]),
-                        ),
+                    child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (_, index) => OpenContainer(
+                        openBuilder: (_, __) =>
+                            ItemDetailsScreen(item: items[index]),
+                        closedElevation: 0,
+                        closedColor: Theme.of(context).scaffoldBackgroundColor,
+                        closedBuilder: (_, __) =>
+                            ShoppingListItem(item: items[index]),
                       ),
                     ),
                   );
