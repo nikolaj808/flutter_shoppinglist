@@ -15,11 +15,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "850342780670-3r0n6hb75oorfab4r33frciaea4v9osc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nikolaj808.personal_shopper",
+            "certificate_hash": "99031131961e24d5ee92c5a8d61b586a145b8a9e"
+          }
+        },
+        {
+          "client_id": "850342780670-5d9sp28oci3523kgu1v4f3ehc8g3d7lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nikolaj808.personal_shopper",
+            "certificate_hash": "c05168c6c6092ae1186025a4a35cb6eb850a1013"
+          }
+        },
+        {
           "client_id": "850342780670-dqra7m7biirn76m82rfgel6rm2fgtsst.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nikolaj808.personal_shopper",
             "certificate_hash": "474fe5e9b1569ad8d0f0ac0a0ae0dcc6bb0d4391"
+          }
+        },
+        {
+          "client_id": "850342780670-v6a95lr2geoq03nbjforlrs9q0qe42qt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nikolaj808.personal_shopper",
+            "certificate_hash": "a14ac8417537c0f458f7f08ea7ac18942f79d2f4"
           }
         },
         {

@@ -10,12 +10,7 @@ import 'package:flutter_shoppinglist/providers/repositories/authentication/authe
 import 'package:flutter_shoppinglist/shared/common_snackbar.dart';
 import 'package:formz/formz.dart';
 
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,11 +25,12 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.of(context).pushNamed('/personal');
           }
           if (state.status.isSubmissionFailure) {
-            Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                CommonSnackBar.error('Login fejlede, prøv igen'),
-              );
+            print('Fail');
+            // Scaffold.of(context)
+            //   ..hideCurrentSnackBar()
+            //   ..showSnackBar(
+            //     CommonSnackBar.error('Login fejlede, prøv igen'),
+            //   );
           }
         },
         child: Scaffold(
