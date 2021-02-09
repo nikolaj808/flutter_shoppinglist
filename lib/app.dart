@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shoppinglist/app_router.dart';
+import 'package:flutter_shoppinglist/personal_shoppinglist/cubit/personal_shoppinglist_cubit.dart';
 import 'package:flutter_shoppinglist/providers/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter_shoppinglist/providers/blocs/items/items_bloc.dart';
-import 'package:flutter_shoppinglist/providers/blocs/shoppinglist/shoppinglist_bloc.dart';
+import 'package:flutter_shoppinglist/providers/blocs/shoppinglists/shoppinglists_bloc.dart';
 import 'package:flutter_shoppinglist/providers/repositories/authentication/authentication_repository.dart';
 import 'package:flutter_shoppinglist/providers/repositories/items/items_repository.dart';
 import 'package:flutter_shoppinglist/providers/repositories/shoppinglists/shoppinglists_repository.dart';
-import 'package:flutter_shoppinglist/providers/repositories/stream_repository.dart';
+import 'package:flutter_shoppinglist/shoppinglist/cubit/shoppinglist_cubit.dart';
 import 'package:flutter_shoppinglist/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -16,16 +17,15 @@ class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   final ItemsRepository itemsRepository;
   final ShoppinglistsRepository shoppinglistsRepository;
-  final StreamRepository streamRepository;
 
   App({
     Key key,
     @required this.authenticationRepository,
     @required this.itemsRepository,
     @required this.shoppinglistsRepository,
-    @required this.streamRepository,
   })  : assert(authenticationRepository != null),
         assert(itemsRepository != null),
+        assert(shoppinglistsRepository != null),
         super(key: key);
 
   @override
@@ -35,23 +35,33 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => AuthenticationBloc(
+            create: (_) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
             ),
           ),
           BlocProvider(
-            create: (context) => ItemsBloc(
+            create: (_) => ItemsBloc(
               itemsRepository: itemsRepository,
             ),
           ),
           BlocProvider(
-            create: (context) => ShoppinglistBloc(
+            create: (_) => PersonalShoppinglistCubit(
+              shoppinglistsRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => ShoppinglistCubit(
+              shoppinglistsRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => ShoppinglistsBloc(
               shoppinglistsRepository: shoppinglistsRepository,
             ),
           ),
         ],
         child: ChangeNotifierProvider(
-          create: (_) => ThemeProvider(),
+          create: (_) => ThemeProvider()..initializeTheme(),
           builder: (context, child) {
             final themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -62,7 +72,7 @@ class App extends StatelessWidget {
               themeMode: themeProvider.themeMode,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
-              initialRoute: '/splash',
+              initialRoute: '/splashtwo',
               onGenerateRoute: AppRouter().onGenerateRoute,
             );
           },

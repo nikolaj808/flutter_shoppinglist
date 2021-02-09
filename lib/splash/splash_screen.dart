@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_shoppinglist/providers/blocs/items/items_bloc.dart';
+import 'package:flutter_shoppinglist/providers/repositories/shoppinglists/shoppinglists_repository.dart';
+import 'package:flutter_shoppinglist/providers/services/shared_preferences_service.dart';
 import 'package:rive/rive.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,13 +15,37 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(
       const Duration(milliseconds: 100),
-      () {
-        final loggedIn = FirebaseAuth.instance.currentUser == null;
+      () async {
+        final bool loggedIn = FirebaseAuth.instance.currentUser != null;
+
+        if (!loggedIn) {
+          return Navigator.of(context).pushNamedAndRemoveUntil(
+            '/login',
+            (_) => false,
+          );
+        }
+
+        final String previousListId = await SharedPreferencesService.getString(
+          SharedPreferencesKey.previousList,
+        );
+
+        final bool previousListExists =
+            await ShoppinglistsRepository().shoppinglistExists(
+          previousListId,
+        );
+
+        if (previousListExists) {
+          return Navigator.of(context).pushNamedAndRemoveUntil(
+            '/shoppinglist',
+            (route) => false,
+            arguments: previousListId,
+          );
+        }
+
         Navigator.of(context).pushNamedAndRemoveUntil(
-          loggedIn ? '/login' : '/',
+          '/personal',
           (route) => false,
         );
-        BlocProvider.of<ItemsBloc>(context).add(GetItems());
       },
     );
   }

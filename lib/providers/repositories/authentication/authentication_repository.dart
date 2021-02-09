@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_shoppinglist/models/app_user_model.dart';
 import 'package:flutter_shoppinglist/providers/repositories/authentication/exceptions/authentication_exception.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationRepository {
+  final usersCollection = FirebaseFirestore.instance.collection('users');
+
   AuthenticationRepository({
     firebase_auth.FirebaseAuth firebaseAuth,
     GoogleSignIn googleSignIn,
@@ -33,6 +37,7 @@ class AuthenticationRepository {
         idToken: googleAuth.idToken,
       );
       await _firebaseAuth.signInWithCredential(credential);
+      await saveUser();
     } on Exception {
       throw LogInWithGoogleFailure();
     }
@@ -50,10 +55,28 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> saveUser() async {
+    final User user = getUser();
+
+    final userAlreadySaved = await usersCollection
+        .where(
+          'uid',
+          isEqualTo: user.uid,
+        )
+        .get();
+
+    if (userAlreadySaved.docs.isEmpty) {
+      final AppUser appUser = AppUser.fromFirebaseUser(user);
+      return usersCollection.add(appUser.toDocument());
+    }
+  }
+
   /// Checks if there is a current user -
   /// returns [false] if there is none, returns [true] if there is one
-  bool isAuthenticated() => _firebaseAuth.currentUser != null;
+  bool isAuthenticated() => _firebaseAuth?.currentUser != null;
 
   /// Gets the currently logged in users ID
-  String getUserId() => _firebaseAuth.currentUser.uid;
+  String getUserId() => _firebaseAuth?.currentUser?.uid;
+
+  User getUser() => _firebaseAuth?.currentUser;
 }

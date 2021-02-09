@@ -18,15 +18,7 @@ class HeaderWidget extends StatelessWidget {
               child: Text(
                 'PERSONAL',
                 style: TextStyle(
-                  color: Colors.black,
                   fontSize: 42.0,
-                  shadows: [
-                    Shadow(
-                      color: Colors.grey,
-                      blurRadius: 16.0,
-                      offset: Offset(8.0, 8.0),
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -35,15 +27,7 @@ class HeaderWidget extends StatelessWidget {
               child: Text(
                 'SHOPPER',
                 style: TextStyle(
-                  color: Colors.black,
                   fontSize: 42.0,
-                  shadows: [
-                    Shadow(
-                      color: Colors.grey,
-                      blurRadius: 16.0,
-                      offset: Offset(-8.0, 8.0),
-                    ),
-                  ],
                 ),
               ),
             ),

@@ -49,7 +49,6 @@ class CreateItemScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _onSubmit(context),
-          backgroundColor: Theme.of(context).accentColor,
           child: const Icon(Icons.done),
         ),
         body: Container(

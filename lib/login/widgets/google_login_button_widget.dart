@@ -33,7 +33,7 @@ class GoogleLoginButtonWidget extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
-                            'Sign in with Google',
+                            'Log ind med Google',
                             style: TextStyle(
                               fontSize: 20,
                             ),

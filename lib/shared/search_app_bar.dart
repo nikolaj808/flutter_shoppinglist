@@ -1,16 +1,21 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:flutter_shoppinglist/home/widgets/toggle_theme_button_widget.dart';
-import 'package:flutter_shoppinglist/providers/blocs/shoppinglist/shoppinglist_bloc.dart';
+import 'package:flutter_shoppinglist/edit_group/edit_group_screen.dart';
+import 'package:flutter_shoppinglist/settings/settings_screen.dart';
+import 'package:flutter_shoppinglist/shared/toggle_theme_button_widget.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final GlobalKey<SideMenuState> sideMenuKey;
+  final String shoppinglistId;
+  final bool isPersonalShoppinglist;
 
   const SearchAppBar({
     Key key,
     @required this.sideMenuKey,
+    @required this.shoppinglistId,
+    this.isPersonalShoppinglist = false,
   }) : super(key: key);
 
   @override
@@ -60,11 +65,36 @@ class _SearchAppBarState extends State<SearchAppBar> {
             _state.closeSideMenu();
           } else {
             _state.openSideMenu();
-            BlocProvider.of<ShoppinglistBloc>(context).add(GetShoppinglists());
           }
         },
       ),
       actions: [
+        if (!widget.isPersonalShoppinglist)
+          OpenContainer(
+            closedBuilder: (_, __) => IconButton(
+              icon: Icon(
+                Icons.group_add,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
+              onPressed: null,
+            ),
+            closedElevation: 0,
+            closedColor: Theme.of(context).scaffoldBackgroundColor,
+            openBuilder: (_, __) => EditGroupScreen(),
+          ),
+        if (!widget.isPersonalShoppinglist)
+          OpenContainer(
+            closedBuilder: (_, __) => IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
+              onPressed: null,
+            ),
+            closedElevation: 0,
+            closedColor: Theme.of(context).scaffoldBackgroundColor,
+            openBuilder: (_, __) => SettingsScreen(shoppinglistId: widget.shoppinglistId),
+          ),
         ToggleThemeButton(),
         searchBar.getSearchAction(context),
       ],

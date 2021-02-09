@@ -29,8 +29,14 @@ class ItemDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
         child: Column(
           children: [
-            DetailSection(title: 'Vare navn', body: item.name),
-            DetailSection(title: 'Vare antal', body: item.quantity.toString()),
+            DetailSection(
+              title: 'Vare navn',
+              body: item.name,
+            ),
+            DetailSection(
+              title: 'Vare antal',
+              body: item.quantity.toString(),
+            ),
             DetailSection(
               title: 'Oprettet',
               body: Jiffy(item.createdAt).format('dd-MM-yyyy kk:mm'),

@@ -22,7 +22,9 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
     ItemsEvent event,
   ) async* {
     if (event is GetItems) {
-      yield* _mapGetItemsToState();
+      yield* _mapGetItemsToState(event);
+    } else if (event is GetPersonalItems) {
+      yield* _mapGetPersonalItemsToState();
     } else if (event is AddItem) {
       yield* _mapAddItemToState(event);
     } else if (event is UpdateItem) {
@@ -34,12 +36,24 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
     }
   }
 
-  Stream<ItemsState> _mapGetItemsToState() async* {
-    _itemSubscription?.cancel();
+  Stream<ItemsState> _mapGetItemsToState(GetItems event) async* {
+    await _itemSubscription?.cancel();
     yield ItemsLoading();
     try {
       _itemSubscription = _itemsRepository
-          .getItems()
+          .getItems(event.shoppinglistId)
+          .listen((updatedItems) => add(ItemsUpdated(items: updatedItems)));
+    } catch (_) {
+      yield ItemsError();
+    }
+  }
+
+  Stream<ItemsState> _mapGetPersonalItemsToState() async* {
+    await _itemSubscription?.cancel();
+    yield ItemsLoading();
+    try {
+      final _itemStream = await _itemsRepository.getPersonalItems();
+      _itemSubscription = _itemStream
           .listen((updatedItems) => add(ItemsUpdated(items: updatedItems)));
     } catch (_) {
       yield ItemsError();
@@ -63,8 +77,8 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   }
 
   @override
-  Future<void> close() {
-    _itemSubscription?.cancel();
+  Future<void> close() async {
+    await _itemSubscription?.cancel();
     return super.close();
   }
 }

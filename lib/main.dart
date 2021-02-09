@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_shoppinglist/providers/repositories/authentication/authentication_repository.dart';
 import 'package:flutter_shoppinglist/providers/repositories/items/items_repository.dart';
 import 'package:flutter_shoppinglist/providers/repositories/shoppinglists/shoppinglists_repository.dart';
-import 'package:flutter_shoppinglist/providers/repositories/stream_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,6 @@ Future<void> main() async {
       authenticationRepository: AuthenticationRepository(),
       itemsRepository: ItemsRepository(),
       shoppinglistsRepository: ShoppinglistsRepository(),
-      streamRepository: StreamRepository(),
     ),
   );
 }

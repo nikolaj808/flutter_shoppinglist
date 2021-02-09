@@ -1,40 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_shoppinglist/providers/services/shared_preferences_service.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.system;
+  ThemeMode themeMode;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
-  void toggleTheme({bool isOn}) {
-    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+  Future<void> initializeTheme() async {
+    final bool isOn = await SharedPreferencesService.getBool(
+      SharedPreferencesKey.themeMode,
+    );
+
+    if (isOn != null) {
+      themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    } else {
+      themeMode = ThemeMode.system;
+    }
+
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+
     notifyListeners();
+  }
+
+  Future<void> toggleTheme({bool isOn}) async {
+    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+
+    await SharedPreferencesService.setBool(
+      SharedPreferencesKey.themeMode,
+      value: isOn,
+    );
+
+    return notifyListeners();
   }
 }
 
 class AppTheme {
-  static final ThemeData darkTheme = ThemeData(
-    fontFamily: 'RobotoMono',
-    scaffoldBackgroundColor: const Color(0xFF121212),
-    backgroundColor: const Color(0xFF1D1D1D),
-    primaryColor: Colors.purple[200],
-    accentColor: Colors.teal[200],
-    dividerColor: Colors.white,
-    colorScheme: const ColorScheme.dark(),
-    iconTheme: const IconThemeData(color: Colors.white),
+  static final ThemeData darkTheme = ThemeData.dark().copyWith(
+    appBarTheme: const AppBarTheme(brightness: Brightness.dark),
+    primaryColor: Colors.orange,
+    accentColor: Colors.indigo,
     primaryIconTheme: const IconThemeData(color: Colors.white),
-    errorColor: const Color(0xFFB00020),
   );
 
-  static final ThemeData lightTheme = ThemeData(
-    fontFamily: 'RobotoMono',
-    scaffoldBackgroundColor: Colors.white,
-    backgroundColor: Colors.white,
-    primaryColor: Colors.purple[800],
-    accentColor: Colors.teal[500],
-    dividerColor: Colors.black,
-    colorScheme: const ColorScheme.light(),
-    iconTheme: const IconThemeData(color: Colors.black),
+  static final ThemeData lightTheme = ThemeData.light().copyWith(
+    appBarTheme: const AppBarTheme(brightness: Brightness.light),
+    primaryColor: Colors.orange,
+    accentColor: Colors.indigo,
     primaryIconTheme: const IconThemeData(color: Colors.black),
-    errorColor: const Color(0xFFB00020),
   );
 }

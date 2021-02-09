@@ -13,9 +13,9 @@ class Shoppinglist {
     this.id,
     @required this.name,
     @required this.ownerId,
-    @required this.userIds,
     @required this.createdAt,
     @required this.lastModifiedAt,
+    this.userIds,
   });
 
   Shoppinglist copyWith(
@@ -36,7 +36,7 @@ class Shoppinglist {
     );
   }
 
-  factory Shoppinglist.fromSnapshot(QueryDocumentSnapshot snapshot) {
+  factory Shoppinglist.fromSnapshot(DocumentSnapshot snapshot) {
     return Shoppinglist(
       id: snapshot.id,
       name: snapshot.data()['name'] as String,

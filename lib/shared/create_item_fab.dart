@@ -2,12 +2,12 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shoppinglist/create_item/create_item_screen.dart';
 
-class HomeScreenFab extends StatelessWidget {
+class CreateItemFab extends StatelessWidget {
   final GlobalKey<FormState> createItemFormKey;
   final void Function(BuildContext context, String name, int quantity)
       onCreateItem;
 
-  const HomeScreenFab({
+  const CreateItemFab({
     Key key,
     @required this.createItemFormKey,
     @required this.onCreateItem,
@@ -30,15 +30,9 @@ class HomeScreenFab extends StatelessWidget {
           Radius.circular(64 / 2),
         ),
       ),
-      closedBuilder: (context, _) => SizedBox(
-        height: 64,
-        width: 64,
-        child: Container(
-          color: Theme.of(context).accentColor,
-          child: const Center(
-            child: Icon(Icons.add),
-          ),
-        ),
+      closedBuilder: (context, _) => const FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.add),
       ),
     );
   }

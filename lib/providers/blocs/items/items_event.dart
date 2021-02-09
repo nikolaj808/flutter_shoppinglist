@@ -7,7 +7,16 @@ abstract class ItemsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetItems extends ItemsEvent {}
+class GetItems extends ItemsEvent {
+  final String shoppinglistId;
+
+  const GetItems({@required this.shoppinglistId});
+
+  @override
+  List<Object> get props => [shoppinglistId];
+}
+
+class GetPersonalItems extends ItemsEvent {}
 
 class AddItem extends ItemsEvent {
   final Item newItem;
